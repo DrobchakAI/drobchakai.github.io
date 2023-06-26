@@ -1,0 +1,19 @@
+.menu{
+    display: flex;
+    gap:15px;
+    align-items: center;
+    margin: 15px;
+    justify-content: center;
+     a{
+        color: #282c34;
+        padding: 5px;
+        text-decoration: none;
+        border: 1px solid #282c34;
+        transition: all 0.2s ease;
+        border-radius: 5px;
+        &:hover{
+            background-color: #282c34;
+            color:white;
+        }
+    }
+}

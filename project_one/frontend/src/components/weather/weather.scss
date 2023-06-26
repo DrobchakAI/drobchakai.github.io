@@ -1,0 +1,22 @@
+.weatherWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: gainsboro;
+    border-radius: 15px;
+    padding: 25px;
+    flex-wrap: wrap;
+    &>.title {
+
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        justify-content: center;
+    }
+    & .inputs{
+        display: flex;
+        gap:15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
