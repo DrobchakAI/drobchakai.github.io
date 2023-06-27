@@ -39,21 +39,6 @@ export const options = {
     },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-export const data = {
-    labels,
-    datasets: [
-        {
-            fill: true,
-            label: '1',
-            data: labels.map(() => 0),
-            borderColor: 'rgb(53, 162, 235)',
-            backgroundColor: 'rgba(53, 162, 235, 0.5)',
-        },
-    ],
-};
-
 export function ChartWrapper(props) {
    
     if (!props.data.hourly) {
@@ -74,5 +59,5 @@ export function ChartWrapper(props) {
             },
         ],
     };
-    return <Line options={options} height={'100%'} data={data} />;
+    return <Line options={options} height={'50'} data={data} />;
 }

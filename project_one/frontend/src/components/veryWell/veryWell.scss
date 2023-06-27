@@ -1,0 +1,10 @@
+.veryWellContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: inherit;
+    align-items: center;
+    & button{
+        height: max-content;
+    }
+}

@@ -1,5 +1,11 @@
-.App {
-  text-align: center;
+
+.app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 
@@ -11,4 +17,8 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+.content{
+  width: 100%;
+  height: 100%;
 }

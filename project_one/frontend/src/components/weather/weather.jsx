@@ -4,24 +4,27 @@ import "./weather.scss";
 import { ChartWrapper } from '../chart/chartWrapper';
 
 function Weather() {
+    const URI = "https://archive-api.open-meteo.com/v1/era5";
+    let date = new Date();
+    let [filterParams, setFilterParams] = React.useState({
+        lat: 53.241505,
+        lon: 50.221245,
+        startDate: `${date.getFullYear()}-${String(date.getMonth()).padStart(2, '0')}-${date.getDate() - 3}`,
+        endDate: `${date.getFullYear()}-${String(date.getMonth()).padStart(2, '0')}-${date.getDate()}`
+    })
 
-    const date = new Date();
-    const [lat, setLat] = React.useState(53.241505);
-    const [lon, setLon] = React.useState(50.221245);
-    const changeLat = (event) => setLat(event.target.value);
-    const changeLon = (event) => setLon(event.target.value);
-
-    const [startDate, setStartDate] = React.useState(`${date.getFullYear()}-${String(date.getMonth()).padStart(2, '0')}-${date.getDate() - 3}`);
-    const [endDate, setEndDate] = React.useState(`${date.getFullYear()}-${String(date.getMonth()).padStart(2, '0')}-${date.getDate()}`);
-
-    const changeStartDate = (event) => setStartDate(event.target.value);
-    const changeEndDate = (event) => setEndDate(event.target.value);
-
-    const [data, setData] = React.useState([]);
+    const changeFilter = (e) => {
+        let preFilterParams = { ...filterParams };
+        if (typeof (preFilterParams[e.target.name]) != "undefined" && preFilterParams[e.target.name] !== null) {
+            preFilterParams[e.target.name] = e.target.value;
+        }
+        setFilterParams(preFilterParams);
+    };
+    let [data, setData] = React.useState([]);
 
     useEffect(() => {
-        const getData = async (lat, lon, startDate, endDate) => {
-            fetch("https://archive-api.open-meteo.com/v1/era5?latitude=" + lat + "&longitude=" + lon + "&start_date=" + startDate + "&end_date=" + endDate + "&hourly=temperature_2m")
+        const getData = async (filterParams) => {
+            fetch(URI + "?latitude=" + filterParams.lat + "&longitude=" + filterParams.lon + "&start_date=" + filterParams.startDate + "&end_date=" + filterParams.endDate + "&hourly=temperature_2m")
                 .then(res => res.json())
                 .then(
                     (result) => {
@@ -29,15 +32,12 @@ function Weather() {
                         setData(result)
                     },
                     (error) => {
-                        this.setState({
-                            isLoaded: true,
-                            error
-                        });
+                        console.error(error)
                     }
                 )
         }
-        getData(lat, lon, startDate, endDate);
-    }, [lat, lon, startDate, endDate]);
+        getData(filterParams);
+    }, [filterParams]);
 
     return <div className='weatherWrapper'>
         <div className="title">
@@ -46,21 +46,21 @@ function Weather() {
         <div className="inputs">
             <div className="input-wrapper">
                 <div className="title">Широта:</div>
-                <input type="number" onChange={changeLat} value={lat} />
+                <input type="number" onChange={changeFilter} name='lat' value={filterParams.lat} />
             </div>
             <div className="input-wrapper">
                 <div className="title">Долгота:</div>
-                <input type="number" onChange={changeLon} value={lon} />
+                <input type="number" onChange={changeFilter} name='lon' value={filterParams.lon} />
             </div>
 
             <div className="input-wrapper">
                 <div className="title">Дата От:</div>
-                <input type="text" onChange={changeStartDate} value={startDate} />
+                <input type="text" onChange={changeFilter} name='startDate' value={filterParams.startDate} />
             </div>
 
             <div className="input-wrapper">
                 <div className="title">Дата До:</div>
-                <input type="text" onChange={changeEndDate} value={endDate} />
+                <input type="text" onChange={changeFilter} name='endDate' value={filterParams.endDate} />
             </div>
         </div>
         <ChartWrapper data={data} />
